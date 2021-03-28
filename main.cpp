@@ -9,11 +9,11 @@ public:
     SingleLinkedList() = default;
 
     SingleLinkedList(std::initializer_list<Type> values) {
-        Paste(values.begin(), values.end());
+        CopyWith(values.begin(), values.end());
     }
 
     SingleLinkedList(const SingleLinkedList& other) {
-        Paste(other.begin(), other.end());
+        CopyWith(other.begin(), other.end());
     }
 
     SingleLinkedList& operator=(const SingleLinkedList& rhs) {
@@ -202,14 +202,14 @@ public:
     // Если список пустой, возвращённый итератор будет равен end()
     // Результат вызова эквивалентен вызову метода cbegin()
     [[nodiscard]] ConstIterator begin() const noexcept {
-        return ConstIterator(head_.next_node);
+        return cbegin();
     }
 
     // Возвращает константный итератор, указывающий на позицию, следующую за последним элементом односвязного списка
     // Разыменовывать этот итератор нельзя - попытка разыменования приведёт к неопределённому поведению
     // Результат вызова эквивалентен вызову метода cend()
     [[nodiscard]] ConstIterator end() const noexcept {
-        return ConstIterator(nullptr);
+        return cend();
     }
 
     // Возвращает константный итератор, ссылающийся на первый элемент
@@ -232,14 +232,14 @@ public:
 
     // Возвращает константный итератор, указывающий на позицию перед первым элементом односвязного списка.
     // Разыменовывать этот итератор нельзя - попытка разыменования приведёт к неопределённому поведению
-    [[nodiscard]] ConstIterator cbefore_begin() const noexcept {
-        return ConstIterator(const_cast<Node*>(&head_));
+    [[nodiscard]] ConstIterator before_begin() const noexcept {
+        return cbefore_begin();
     }
 
     // Возвращает константный итератор, указывающий на позицию перед первым элементом односвязного списка.
     // Разыменовывать этот итератор нельзя - попытка разыменования приведёт к неопределённому поведению
-    [[nodiscard]] ConstIterator before_begin() const noexcept {
-        return ConstIterator(&head_);
+    [[nodiscard]] ConstIterator cbefore_begin() const noexcept {
+        return ConstIterator(const_cast<Node*>(&head_));
     }
 
     /*
@@ -286,7 +286,7 @@ private:
     size_t size_ = 0;
 
     template<typename Iterator>
-    void Paste(Iterator begin, Iterator end) {
+    void CopyWith(Iterator begin, Iterator end) {
         if (begin == end) {
             return;
         }
